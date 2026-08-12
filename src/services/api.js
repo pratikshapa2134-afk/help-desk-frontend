@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api',
-});
+    baseURL: 'https://help-desk-backend-9yu6.onrender.com/api',
+  });
 
 API.interceptors.request.use((req) => {
   const userInfo = localStorage.getItem('userInfo');
