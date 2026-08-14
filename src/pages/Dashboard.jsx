@@ -6,15 +6,15 @@ export default function Dashboard() {
   const [user, setUser] = useState(null);
   const [stats, setStats] = useState({});
   const navigate = useNavigate();
-
   useEffect(() => {
-    // Both keys checked to prevent missing user data
-    const storedUser = localStorage.getItem('userInfo') || localStorage.getItem('user');
+    const storedUser = localStorage.getItem('userInfo');
     
     if (!storedUser) {
       navigate('/');
     } else {
-      setUser(JSON.parse(storedUser));
+      const parsedUser = JSON.parse(storedUser);
+      // थेट parsedUser वापरत आहोत कारण बॅकएंड थेट युजरचे फील्ड्स पाठवत आहे
+      setUser(parsedUser); 
       fetchStats();
     }
   }, [navigate]);
