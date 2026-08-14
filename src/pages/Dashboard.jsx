@@ -3,19 +3,28 @@ import { useNavigate } from 'react-router-dom';
 import API from '../services/api';
 
 export default function Dashboard() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState({ name: '', role: '' });
   const [stats, setStats] = useState({});
   const navigate = useNavigate();
+
   useEffect(() => {
     const storedUser = localStorage.getItem('userInfo');
     
     if (!storedUser) {
       navigate('/');
     } else {
-      const parsedUser = JSON.parse(storedUser);
-      // थेट parsedUser वापरत आहोत कारण बॅकएंड थेट युजरचे फील्ड्स पाठवत आहे
-      setUser(parsedUser); 
-      fetchStats();
+      try {
+        const parsedUser = JSON.parse(storedUser);
+        // बॅकएंडवरून येणारा फ्लॅट डेटा किंवा युजर ऑब्जेक्ट दोन्ही अचूकपणे सेट करेल
+        setUser({
+          name: parsedUser.name || 'User',
+          role: parsedUser.role || 'Customer'
+        });
+        fetchStats();
+      } catch (err) {
+        console.error("Error parsing user info", err);
+        navigate('/');
+      }
     }
   }, [navigate]);
 
@@ -30,11 +39,8 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
-    localStorage.removeItem('user');
     navigate('/');
   };
-
-  if (!user) return <div style={{ textAlign: 'center', marginTop: '50px' }}>Loading...</div>;
 
   return (
     <div style={{ padding: '30px', fontFamily: 'Segoe UI, sans-serif', background: '#f1f5f9', minHeight: '100vh' }}>
@@ -51,7 +57,7 @@ export default function Dashboard() {
 
       {/* Dashboard Analytics Widgets */}
       <div style={{ marginTop: '30px' }}>
-        <h2>{user.role === 'Super Admin' ? 'Admin Dashboard Overview' : user.role === 'Support Agent' ? 'Agent Dashboard' : 'Customer Dashboard'}</h2>
+        <h2>Dashboard Overview</h2>
         
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '20px', marginTop: '20px' }}>
           <div style={{ background: 'white', padding: '20px', borderRadius: '10px', boxShadow: '0 2px 4px rgba(0,0,0,0.05)' }}>
