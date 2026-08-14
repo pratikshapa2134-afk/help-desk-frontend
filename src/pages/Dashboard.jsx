@@ -8,7 +8,9 @@ export default function Dashboard() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = localStorage.getItem('userInfo');
+    // Both keys checked to prevent missing user data
+    const storedUser = localStorage.getItem('userInfo') || localStorage.getItem('user');
+    
     if (!storedUser) {
       navigate('/');
     } else {
@@ -28,6 +30,7 @@ export default function Dashboard() {
 
   const handleLogout = () => {
     localStorage.removeItem('userInfo');
+    localStorage.removeItem('user');
     navigate('/');
   };
 
@@ -46,7 +49,7 @@ export default function Dashboard() {
         </button>
       </div>
 
-      {/* Admin / Agent / Customer Dashboards */}
+      {/* Dashboard Analytics Widgets */}
       <div style={{ marginTop: '30px' }}>
         <h2>{user.role === 'Super Admin' ? 'Admin Dashboard Overview' : user.role === 'Support Agent' ? 'Agent Dashboard' : 'Customer Dashboard'}</h2>
         
