@@ -1,15 +1,7 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const API = axios.create({
-    baseURL: 'https://help-desk-backend-9yu6.onrender.com/api',
-  });
+const API = axios.create({ 
+  baseURL: 'https://help-desk-backend.onrender.com/api' // Render cha URL
+})
 
-API.interceptors.request.use((req) => {
-  const userInfo = localStorage.getItem('userInfo');
-  if (userInfo) {
-    req.headers.Authorization = `Bearer ${JSON.parse(userInfo).token}`;
-  }
-  return req;
-});
-
-export default API;
+export default API
