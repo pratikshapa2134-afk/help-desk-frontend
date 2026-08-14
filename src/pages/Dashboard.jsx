@@ -15,7 +15,7 @@ export default function Dashboard() {
     } else {
       try {
         const parsedUser = JSON.parse(storedUser);
-        // बॅकएंडवरून येणारा फ्लॅट डेटा किंवा युजर ऑब्जेक्ट दोन्ही अचूकपणे सेट करेल
+        // localStorage मधून थेट नाव आणि रोल सेट करत आहोत
         setUser({
           name: parsedUser.name || 'User',
           role: parsedUser.role || 'Customer'
